@@ -20,7 +20,7 @@ public class Game {
         player1Hand = drawCards(7);
         player2Hand = drawCards(7);
 
-        middleCard = deck.remove(0);
+        middleCard = deck.get(0);
     }
 
     private void initializeDeck() {
@@ -70,26 +70,50 @@ public class Game {
                     gameOn = false;
                 }
             }
-            player1Turn = !player1Turn;
         }
         scanner.close();
     }
 
     private void playTurn(List<CardObject> hand, Scanner scanner) {
-        System.out.println("Twoje karty:");
-        for (int i = 0; i < hand.size(); i++) {
-            CardObject card = hand.get(i);
-            System.out.println((i + 1) + ": " + card.getCardColor() + " - " + card.getCardNumber());
-        }
+        boolean validMove = false;
 
-        System.out.println("Wybierz kartę:");
-        int cardIndex = scanner.nextInt() - 1;
+        while (!validMove) {
+            System.out.println("Środkowa karta: " + middleCard.getCardColor() + " - " + middleCard.getCardNumber());
 
-        if (cardIndex >= 0 && cardIndex < hand.size()) {
-            CardObject playedCard = hand.remove(cardIndex);
-            System.out.println("Zagrałeś kartę: " + playedCard.getCardColor() + " " + playedCard.getCardNumber());
-        } else {
-            System.out.println("Niepoprawny wybór. Spróbuj ponownie.");
+            System.out.println("Twoje karty:");
+            for (int i = 0; i < hand.size(); i++) {
+                CardObject card = hand.get(i);
+                System.out.println((i + 1) + ": " + card.getCardColor() + " - " + card.getCardNumber());
+            }
+
+            System.out.println("Wybierz kartę lub wpisz 0, aby dobrać kartę:");
+            int cardIndex = scanner.nextInt() - 1;
+
+            if (cardIndex == -1) {
+                if (!deck.isEmpty()) {
+                    CardObject newCard = deck.remove(0);
+                    hand.add(newCard);
+                    System.out.println("Dobrałeś kartę: " + newCard.getCardColor() + " - " + newCard.getCardNumber());
+                    return;
+                } else {
+                    System.out.println("Talia jest pusta, nie możesz dobrać więcej kart.");
+                }
+            } else if (cardIndex >= 0 && cardIndex < hand.size()) {
+                CardObject selectedCard = hand.get(cardIndex);
+
+                if (selectedCard.getCardColor() == middleCard.getCardColor() || selectedCard.getCardNumber() == middleCard.getCardNumber()) {
+                    hand.remove(cardIndex);
+                    System.out.println("Zagrałeś kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
+
+                    middleCard = selectedCard;
+
+                    validMove = true;
+                } else {
+                    System.out.println("Niepoprawna karta. Musisz zagrać kartę o tym samym kolorze lub numerze co środkowa karta. Spróbuj ponownie.");
+                }
+            } else {
+                System.out.println("Niepoprawny wybór. Spróbuj ponownie.");
+            }
         }
     }
 

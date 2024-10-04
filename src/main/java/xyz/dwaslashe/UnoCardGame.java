@@ -3,6 +3,7 @@ package xyz.dwaslashe;
 import com.google.common.io.Resources;
 import xyz.dwaslashe.groq.GroqApiClientImpl;
 import xyz.dwaslashe.objects.CardObject;
+import xyz.dwaslashe.objects.GameObject;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -15,7 +16,7 @@ public class UnoCardGame {
 
 
     public static void main(String[] args) throws IOException {
-        Game game = new Game();
+        GameObject game = new GameObject();
         game.startGame();
 
         if (1 == 0) {

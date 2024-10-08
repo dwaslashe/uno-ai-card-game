@@ -16,8 +16,6 @@ public class CardObject {
         this.cardColor = cardColor;
     }
 
-
-
     public CardType getCardColor() {
         return cardColor;
     }

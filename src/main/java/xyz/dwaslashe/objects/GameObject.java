@@ -11,15 +11,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameObject {
 
-    private List<CardObject> deck = new ArrayList<>();
-    private List<CardObject> playerHand = new ArrayList<>();
-    private List<CardObject> artificialIntelligenceHand = new ArrayList<>();
-    private CardObject middleCard;
+    public List<CardObject> deck = new ArrayList<>();
+    public List<CardObject> playerHand = new ArrayList<>();
+    public List<CardObject> artificialIntelligenceHand = new ArrayList<>();
+    public CardObject middleCard;
 
     public GameObject() {
         initializeDeck();
@@ -46,8 +45,7 @@ public class GameObject {
         List<CardObject> hand = new ArrayList<>();
         for (int i = 0; i < numberOfCards; i++) {
             if (!deck.isEmpty()) {
-                hand.add(deck.get(0));//hand.add(deck.remove(0))
-                deck.remove(0);
+                hand.add(deck.remove(0));
             }
         }
         return hand;
@@ -74,8 +72,8 @@ public class GameObject {
                 boolean validMove = false;
 
                 while (!validMove) {
-                    String aiResponse = executeAiTurn(artificialIntelligenceHand);
-                    validMove = playTurn2(artificialIntelligenceHand, aiResponse);
+                    String aiResponse = executeAITurn(artificialIntelligenceHand);
+                    validMove = playTurnAI(artificialIntelligenceHand, aiResponse);
 
                     if (!validMove) {
                         System.out.println("Próba ponownie...");
@@ -178,7 +176,7 @@ public class GameObject {
         }
     }
 
-    private String executeAiTurn(List<CardObject> hand) throws IOException, InterruptedException {
+    private String executeAITurn(List<CardObject> hand) throws IOException, InterruptedException {
 
         StringBuilder cardsBuilder = new StringBuilder();
 
@@ -232,7 +230,7 @@ public class GameObject {
         return finalPassword.get();
     }
 
-    private boolean playTurn2(List<CardObject> hand, String response) {
+    private boolean playTurnAI(List<CardObject> hand, String response) {
         String finalKeyResponse = response;
 
         String[] cardIndexArguments = finalKeyResponse.trim().split("\\s+");
@@ -244,11 +242,11 @@ public class GameObject {
                 if (!deck.isEmpty()) {
                     CardObject newCard = deck.remove(0);
                     hand.add(newCard);
-                    System.out.println("Ai dobrał kartę: " + newCard.getCardColor() + " - " + newCard.getCardNumber());
+                    System.out.println("AI dobrał kartę: " + newCard.getCardColor() + " - " + newCard.getCardNumber());
 
                     return true;
                 } else {
-                    System.out.println("Ai ma talie pustą.");
+                    System.out.println("AI ma talie pustą.");
                     return false;
                 }
             } else if (finalCardIndex >= 0 && finalCardIndex < hand.size()) {
@@ -256,17 +254,17 @@ public class GameObject {
 
                 if (selectedCard.getCardColor() == middleCard.getCardColor() || selectedCard.getCardNumber() == middleCard.getCardNumber()) {
                     hand.remove(finalCardIndex);
-                    System.out.println("Ai zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
+                    System.out.println("AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
 
                     middleCard = selectedCard;
 
                     return true;
                 } else {
-                    System.out.println("Ai niepoprawna karta.");
+                    System.out.println("AI niepoprawna karta.");
                     return false;
                 }
             } else {
-                System.out.println("Ai niepoprawny wybór.");
+                System.out.println("AI niepoprawny wybór.");
                 return false;
             }
         } else if (cardIndexArguments.length > 1) {
@@ -286,17 +284,17 @@ public class GameObject {
 
                     if (selectedCard.getCardColor() == middleCard.getCardColor() || selectedCard.getCardNumber() == middleCard.getCardNumber()) {
                         hand.remove(finalCardIndex);
-                        System.out.println("Ai zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
+                        System.out.println("AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
 
                         middleCard = selectedCard;
 
                         return true;
                     } else {
-                        System.out.println("Ai niepoprawna karta.");
+                        System.out.println("AI niepoprawna karta.");
                         return false;
                     }
                 } else {
-                    System.out.println("Ai niepoprawny wybór.");
+                    System.out.println("AI niepoprawny wybór.");
                     return false;
                 }
             }

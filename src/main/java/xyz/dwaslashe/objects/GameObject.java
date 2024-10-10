@@ -6,6 +6,7 @@ import xyz.dwaslashe.groq.GroqApiClientImpl;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -72,7 +73,7 @@ public class GameObject {
                 boolean validMove = false;
 
                 while (!validMove) {
-                    String aiResponse = executeAITurn(artificialIntelligenceHand);
+                    String aiResponse = getResponseAI(artificialIntelligenceHand);
                     validMove = playTurnAI(artificialIntelligenceHand, aiResponse);
 
                     if (!validMove) {
@@ -176,7 +177,7 @@ public class GameObject {
         }
     }
 
-    private String executeAITurn(List<CardObject> hand) throws IOException, InterruptedException {
+    public String getResponseAI(List<CardObject> hand) throws IOException, InterruptedException {
 
         StringBuilder cardsBuilder = new StringBuilder();
 
@@ -230,19 +231,29 @@ public class GameObject {
         return finalPassword.get();
     }
 
-    private boolean playTurnAI(List<CardObject> hand, String response) {
+    public boolean playTurnAI(List<CardObject> hand, String response) {
         String finalKeyResponse = response;
 
         String[] cardIndexArguments = finalKeyResponse.trim().split("\\s+");
 
         if (cardIndexArguments.length == 1) {
-            int finalCardIndex = Integer.parseInt(finalKeyResponse.replace(" ", "")) - 1;
+            if (finalKeyResponse.isEmpty() || finalKeyResponse == null) {
+                return false;
+            }
+
+            String noSpaceKeyResponse = finalKeyResponse.replace(" ", "");
+
+
+            System.out.println("noSpaceKeyResponse: " + noSpaceKeyResponse);
+            System.out.println("finalCardIndex: " + (Integer.parseInt(noSpaceKeyResponse) - 1));
+            int finalCardIndex = (Integer.parseInt(noSpaceKeyResponse) - 1);
 
             if (finalCardIndex == -1) {
                 if (!deck.isEmpty()) {
                     CardObject newCard = deck.remove(0);
                     hand.add(newCard);
                     System.out.println("AI dobrał kartę: " + newCard.getCardColor() + " - " + newCard.getCardNumber());
+                    JOptionPane.showMessageDialog(null, "AI dobrał kartę: " + newCard.getCardColor() + " - " + newCard.getCardNumber());
 
                     return true;
                 } else {
@@ -255,6 +266,7 @@ public class GameObject {
                 if (selectedCard.getCardColor() == middleCard.getCardColor() || selectedCard.getCardNumber() == middleCard.getCardNumber()) {
                     hand.remove(finalCardIndex);
                     System.out.println("AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
+                    JOptionPane.showMessageDialog(null, "AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
 
                     middleCard = selectedCard;
 
@@ -284,6 +296,7 @@ public class GameObject {
 
                     if (selectedCard.getCardColor() == middleCard.getCardColor() || selectedCard.getCardNumber() == middleCard.getCardNumber()) {
                         hand.remove(finalCardIndex);
+                        JOptionPane.showMessageDialog(null, "AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
                         System.out.println("AI zagrał kartę: " + selectedCard.getCardColor() + " - " + selectedCard.getCardNumber());
 
                         middleCard = selectedCard;

@@ -6,7 +6,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setTitle("UNO");
-        setSize(500,350);
+        setSize(600,350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         CardPanel cardPanel = new CardPanel();

@@ -36,7 +36,7 @@ public class StyleButton extends BasicButtonUI {
         );
 
         g2.setPaint(gradient);
-        g2.fillRoundRect(0, yOffset, size.width, size.height - yOffset, 25, 25); // bardziej zaokrąglone rogi
+        g2.fillRoundRect(0, yOffset, size.width, size.height - yOffset, 25, 25);
 
         g2.drawRoundRect(0, yOffset, size.width - 1, size.height - yOffset - 1, 25, 25);
 

@@ -1,13 +1,15 @@
 package xyz.dwaslashe.objects;
 
+import xyz.dwaslashe.enums.CardSpecialType;
 import xyz.dwaslashe.enums.CardType;
 
 public class CardObject {
 
     private CardType cardColor;
     private int cardNumber;
+    private CardSpecialType specialType;
 
-    public CardObject(CardType cardColor, int cardNumber) {
+    public CardObject(CardType cardColor, int cardNumber, CardSpecialType cardSpecialType) {
         this.cardColor = cardColor;
         this.cardNumber = cardNumber;
     }
@@ -30,5 +32,13 @@ public class CardObject {
 
     public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public CardSpecialType getSpecialType() {
+        return specialType;
+    }
+
+    public void setSpecialType(CardSpecialType specialType) {
+        this.specialType = specialType;
     }
 }

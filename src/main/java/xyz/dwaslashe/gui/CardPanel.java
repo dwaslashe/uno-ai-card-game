@@ -1,6 +1,7 @@
 package xyz.dwaslashe.gui;
 
 import com.google.common.io.Resources;
+import xyz.dwaslashe.enums.CardSpecialType;
 import xyz.dwaslashe.objects.CardObject;
 import xyz.dwaslashe.objects.GameObject;
 
@@ -130,6 +131,20 @@ public class CardPanel extends JPanel {
     private String getCardImagePath(CardObject card) {
         String cardType = String.valueOf(card.getCardColor());
         String cardNumber = String.valueOf(card.getCardNumber());
+
+        if (card.getCardNumber() == 10) {
+            if (card.getSpecialType() == CardSpecialType.BLOCK) {
+                return "cards/" + cardType.toLowerCase()  + "/" + cardType.toLowerCase() + "b.png";
+            } else if (card.getSpecialType() == CardSpecialType.SWITCH) {
+                return "cards/" + cardType.toLowerCase()  + "/" + cardType.toLowerCase() + "s.png";
+            } else if (card.getSpecialType() == CardSpecialType.PLUSTWO) {
+                return "cards/" + cardType.toLowerCase()  + "/" + cardType.toLowerCase() + "+.png";
+            } else if (card.getSpecialType() == CardSpecialType.PLUSFOUR) {
+                return "cards/special/+4.png";
+            } else if (card.getSpecialType() == CardSpecialType.CHANGECOLOR) {
+                return "cards/special/change.png";
+            }
+        }
         return "cards/" + cardType.toLowerCase()  + "/" + cardType.toLowerCase() + cardNumber + ".png";
     }
 
@@ -178,7 +193,6 @@ public class CardPanel extends JPanel {
         }
 
         playerPanel.revalidate();
-        playerPanel.repaint();
 
         if (newCard.getCardColor() == gameObject.middleCard.getCardColor() || newCard.getCardNumber() == gameObject.middleCard.getCardNumber()) {
             JOptionPane.showMessageDialog(null, "Kartę, którą dobrałeś możesz wykorzystać na teraz ponieważ pasuje na środek! " + newCard.getCardColor() + " - " + newCard.getCardNumber());

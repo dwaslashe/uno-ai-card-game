@@ -1,6 +1,7 @@
 package xyz.dwaslashe.objects;
 
 import com.google.common.io.Resources;
+import xyz.dwaslashe.enums.CardSpecialType;
 import xyz.dwaslashe.enums.CardType;
 import xyz.dwaslashe.groq.GroqApiClientImpl;
 
@@ -33,11 +34,27 @@ public class GameObject {
         for (CardType cardType : CardType.values()) {
 
             for (int i = 0; i <= 9; i++) {
-                deck.add(new CardObject(cardType, i));
+                deck.add(new CardObject(cardType, i, CardSpecialType.NUMBER));
             }
             for (int i = 1; i <= 9; i++) {
-                deck.add(new CardObject(cardType, i));
+                deck.add(new CardObject(cardType, i, CardSpecialType.NUMBER));
             }
+
+            for (int i = 1; i <= 8; i++) {
+                deck.add(new CardObject(cardType, 10, CardSpecialType.BLOCK));
+            }
+            //for (int i = 1; i <= 8; i++) {
+            //    deck.add(new CardObject(cardType, 10, CardSpecialType.SWITCH));
+            //}
+            //for (int i = 1; i <= 8; i++) {
+            //    deck.add(new CardObject(cardType, 10, CardSpecialType.PLUSTWO));
+            //}
+            //for (int i = 1; i <= 4; i++) {
+            //    deck.add(new CardObject(CardType.NULL, 10, CardSpecialType.PLUSFOUR));
+            //}
+            //for (int i = 1; i <= 4; i++) {
+            //    deck.add(new CardObject(CardType.NULL, 10, CardSpecialType.CHANGECOLOR));
+            //}
         }
         Collections.shuffle(deck);
     }
